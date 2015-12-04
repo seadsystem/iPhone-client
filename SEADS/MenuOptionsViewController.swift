@@ -10,15 +10,25 @@ import UIKit
 
 class MenuOptionsViewController: UIViewController {
 
+    @IBOutlet var buttons: [UIButton]!
     override func viewDidLoad() {
         super.viewDidLoad()
 
+       
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        for button in buttons {
+            let radius = button.frame.height / 2
+            button.layer.cornerRadius = radius
+        }
     }
     
 

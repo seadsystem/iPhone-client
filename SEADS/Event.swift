@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+public class Event {
+    public init(time: String) {
+        self.timeStamp = time
+    }
+    
+    public var timeStamp: String?
+    
+    public var options: [String]?
+}

@@ -8,28 +8,45 @@
 
 import UIKit
 
-class GraphPageViewController: UIPageViewController {
-
-    override func viewDidLoad() {
+public class GraphPageViewController: UIPageViewController, UIPageViewControllerDataSource {
+    private var controllers = [Int:GraphViewController]()
+    
+    public override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        self.dataSource = self
+        let gvc = self.storyboard?.instantiateViewControllerWithIdentifier(GraphViewController.identifier) as! GraphViewController
+        controllers[gvc.index] = gvc
+        gvc.index = 0
+        self.setViewControllers([gvc], direction: .Forward, animated: false, completion: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+        
+        if let current = viewController as? GraphViewController {
+            let newIndex = current.index + 1
+            if let gvc = controllers[newIndex] {
+                return gvc
+            } else {
+                let gvc = self.storyboard?.instantiateViewControllerWithIdentifier(GraphViewController.identifier) as! GraphViewController
+                gvc.index = newIndex
+                return gvc
+            }
+        }
+        return nil
     }
-    */
-
+    
+    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+        
+        if let current = viewController as? GraphViewController {
+            let newIndex = current.index - 1
+            if let gvc = controllers[newIndex] {
+                return gvc
+            } else {
+                let gvc = self.storyboard?.instantiateViewControllerWithIdentifier(GraphViewController.identifier) as! GraphViewController
+                gvc.index = newIndex
+                return gvc
+            }
+        }
+        return nil
+    }
 }

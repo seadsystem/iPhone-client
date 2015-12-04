@@ -6,8 +6,18 @@
 //  Copyright © 2015 Olexiy Burov. All rights reserved.
 //
 
-import Cocoa
+import UIKit
 
-class EventCell: UITableViewCell {
-
+public class EventCell: UITableViewCell {
+    @IBOutlet weak var label: UILabel!
+    
+    var deleting = false
+    
+    public var event: Event? {
+        didSet {
+            if let timeStamp = event?.timeStamp {
+                label.text = "Ambigous signature: \(timeStamp)"
+            }
+        }
+    }
 }
